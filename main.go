@@ -30,6 +30,8 @@ func main() {
 	svc := dynamodb.New(sess)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {})
+
 	mux.HandleFunc("/transfer_user_id", func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("X-TOKEN")
 
@@ -59,7 +61,7 @@ func main() {
 	handler := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000", "https://dirty.mib.neurohive.net"},
 		AllowCredentials: true,
-		Debug:            true,
+		Debug:            false,
 		AllowedHeaders:   []string{"X-TOKEN", "Content-Type"},
 	}).Handler(mux)
 
